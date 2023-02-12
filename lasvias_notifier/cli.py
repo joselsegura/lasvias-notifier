@@ -4,6 +4,7 @@ import argparse
 import asyncio
 import json
 import logging
+import os
 from threading import Timer
 
 import requests
@@ -115,12 +116,16 @@ def lasvias_bot():
     """Handle the lasvias-bot CLI command."""
     logging.getLogger().setLevel(logging.DEBUG)
     logging.info("Launch")
+    
+    default_token = os.environ.get("TOKEN")
+
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-t",
         "--token",
         type=str,
-        required=True,
+        required=default_token is None,
+        default=default_token,
         help="Telegram API token for the bot",
     )
     parser.add_argument(
